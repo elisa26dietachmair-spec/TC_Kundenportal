@@ -1,0 +1,383 @@
+
+<h2 class="sr-only">TIGER Coatings Kundenportal — modernes B2B-Portal mit Dashboard, Bestellungen, Produkten, Dokumenten und Support</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --tc-green:#97BF0D;
+  --tc-green-dark:#7aa00a;
+  --tc-green-pale:#f2f7e0;
+  --tc-black:#1a1a18;
+  --tc-dark:#2c2c28;
+  --tc-mid:#5a5a54;
+  --tc-muted:#8a8a82;
+  --tc-border:#e4e4dc;
+  --tc-bg:#f8f8f4;
+  --tc-white:#ffffff;
+}
+.portal{background:var(--tc-bg);border-radius:14px;overflow:hidden;border:0.5px solid var(--tc-border);font-family:var(--font-sans);font-size:13px;color:var(--tc-dark);}
+
+.topbar{background:var(--tc-black);display:flex;align-items:center;padding:0 20px;height:52px;gap:14px;}
+.logo-wrap{display:flex;align-items:center;gap:10px;}
+.logo-box{width:32px;height:32px;border-radius:6px;background:var(--tc-green);display:flex;align-items:center;justify-content:center;}
+.logo-box svg{width:18px;height:18px;}
+.logo-name{font-size:14px;font-weight:500;color:#fff;letter-spacing:0.01em;}
+.logo-sub{font-size:11px;color:rgba(255,255,255,0.4);margin-left:2px;}
+.topbar-mid{flex:1;}
+.topbar-right{display:flex;align-items:center;gap:14px;}
+.topbar-icon{font-size:18px;color:rgba(255,255,255,0.5);cursor:pointer;}
+.topbar-icon:hover{color:#fff;}
+.notif-wrap{position:relative;}
+.notif-dot{position:absolute;top:-1px;right:-1px;width:7px;height:7px;border-radius:50%;background:var(--tc-green);border:1.5px solid var(--tc-black);}
+.avatar-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;padding:4px 8px;border-radius:8px;}
+.avatar-wrap:hover{background:rgba(255,255,255,0.07);}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--tc-green);color:var(--tc-black);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.avatar-name{font-size:12px;color:rgba(255,255,255,0.7);}
+
+.layout{display:flex;min-height:540px;}
+.sidebar{width:200px;flex-shrink:0;background:var(--tc-white);border-right:0.5px solid var(--tc-border);display:flex;flex-direction:column;}
+.sidebar-top{padding:16px 14px 8px;}
+.company-chip{background:var(--tc-green-pale);border-radius:8px;padding:8px 10px;margin-bottom:4px;}
+.company-name{font-size:12px;font-weight:500;color:var(--tc-black);}
+.company-tier{font-size:11px;color:var(--tc-green-dark);margin-top:1px;}
+.nav-section{font-size:10px;color:var(--tc-muted);padding:12px 14px 4px;text-transform:uppercase;letter-spacing:0.07em;font-weight:500;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 14px;font-size:13px;color:var(--tc-mid);cursor:pointer;transition:all 0.12s;border-left:2px solid transparent;}
+.nav-item i{font-size:16px;}
+.nav-item:hover{background:#f5f5f0;color:var(--tc-black);border-left-color:var(--tc-border);}
+.nav-item.active{background:var(--tc-green-pale);color:var(--tc-black);font-weight:500;border-left-color:var(--tc-green);}
+.nav-item.active i{color:var(--tc-green-dark);}
+.sidebar-footer{margin-top:auto;padding:12px 14px;border-top:0.5px solid var(--tc-border);}
+.sidebar-footer-link{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tc-muted);cursor:pointer;padding:6px 0;}
+.sidebar-footer-link:hover{color:var(--tc-black);}
+.sidebar-footer-link i{font-size:15px;}
+
+.content{flex:1;padding:20px;overflow:hidden;background:var(--tc-bg);}
+.page{display:none;}
+.page.active{display:block;}
+
+.page-header{margin-bottom:18px;}
+.page-title{font-size:17px;font-weight:500;color:var(--tc-black);}
+.page-sub{font-size:12px;color:var(--tc-muted);margin-top:2px;}
+
+.metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:18px;}
+.metric{background:var(--tc-white);border-radius:10px;padding:14px 16px;border:0.5px solid var(--tc-border);}
+.metric-icon{font-size:18px;color:var(--tc-green-dark);margin-bottom:8px;}
+.metric-label{font-size:11px;color:var(--tc-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;}
+.metric-val{font-size:20px;font-weight:500;color:var(--tc-black);}
+.metric-sub{font-size:11px;margin-top:3px;}
+
+.card{background:var(--tc-white);border-radius:10px;border:0.5px solid var(--tc-border);overflow:hidden;margin-bottom:14px;}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:0.5px solid var(--tc-border);}
+.card-title{font-size:13px;font-weight:500;color:var(--tc-black);}
+.card-action{font-size:12px;color:var(--tc-green-dark);cursor:pointer;font-weight:500;}
+.card-action:hover{color:var(--tc-green);}
+
+.tbl{width:100%;border-collapse:collapse;table-layout:fixed;}
+.tbl th{text-align:left;font-size:11px;font-weight:500;color:var(--tc-muted);text-transform:uppercase;letter-spacing:0.05em;padding:8px 14px;border-bottom:0.5px solid var(--tc-border);background:#fafaf6;}
+.tbl td{padding:10px 14px;border-bottom:0.5px solid var(--tc-border);font-size:12px;color:var(--tc-mid);vertical-align:middle;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:#fafaf8;}
+.tbl td.bold{color:var(--tc-black);font-weight:500;}
+.tbl td.link{color:var(--tc-green-dark);font-weight:500;cursor:pointer;}
+.tbl td.link:hover{color:var(--tc-green);}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:500;}
+.badge-green{background:#edf5c0;color:#4a6a02;}
+.badge-yellow{background:#fef9e0;color:#7a6002;}
+.badge-blue{background:#e0eef9;color:#0a4a7a;}
+.badge-dot{width:5px;height:5px;border-radius:50%;}
+.badge-green .badge-dot{background:#4a6a02;}
+.badge-yellow .badge-dot{background:#7a6002;}
+.badge-blue .badge-dot{background:#0a4a7a;}
+
+.live-bar{display:flex;align-items:center;gap:8px;background:var(--tc-green-pale);border-radius:8px;padding:8px 12px;margin-bottom:14px;font-size:12px;color:var(--tc-green-dark);}
+.live-bar i{font-size:15px;}
+.live-pill{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--tc-green);}
+
+.filter-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.chip{padding:5px 12px;border-radius:99px;font-size:12px;border:0.5px solid var(--tc-border);background:var(--tc-white);color:var(--tc-mid);cursor:pointer;transition:all 0.1s;}
+.chip:hover{border-color:var(--tc-green);color:var(--tc-green-dark);}
+.chip.on{background:var(--tc-green-pale);color:var(--tc-green-dark);border-color:var(--tc-green);font-weight:500;}
+
+.prod-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.prod-card{background:var(--tc-white);border-radius:10px;border:0.5px solid var(--tc-border);padding:14px;transition:border-color 0.15s;}
+.prod-card:hover{border-color:var(--tc-green);}
+.swatch-row{display:flex;gap:6px;margin-bottom:10px;}
+.swatch{width:32px;height:32px;border-radius:6px;border:0.5px solid rgba(0,0,0,0.1);}
+.prod-name{font-size:13px;font-weight:500;color:var(--tc-black);margin-bottom:2px;}
+.prod-nr{font-size:11px;color:var(--tc-muted);margin-bottom:8px;}
+.prod-price-row{display:flex;align-items:baseline;gap:4px;margin-bottom:10px;}
+.prod-price{font-size:15px;font-weight:500;color:var(--tc-black);}
+.prod-unit{font-size:11px;color:var(--tc-muted);}
+.prod-btn{width:100%;padding:7px;border-radius:7px;border:0.5px solid var(--tc-green);background:transparent;color:var(--tc-green-dark);font-size:12px;cursor:pointer;font-weight:500;transition:all 0.12s;}
+.prod-btn:hover{background:var(--tc-green-pale);}
+
+.doc-list{display:flex;flex-direction:column;gap:8px;}
+.doc-row{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--tc-white);border:0.5px solid var(--tc-border);border-radius:10px;transition:border-color 0.12s;}
+.doc-row:hover{border-color:var(--tc-green);}
+.doc-icon-wrap{width:36px;height:36px;border-radius:8px;background:var(--tc-green-pale);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.doc-icon-wrap i{font-size:18px;color:var(--tc-green-dark);}
+.doc-name{font-size:13px;font-weight:500;color:var(--tc-black);}
+.doc-meta{font-size:11px;color:var(--tc-muted);margin-top:1px;}
+.doc-dl{margin-left:auto;width:32px;height:32px;border-radius:7px;border:0.5px solid var(--tc-border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.doc-dl:hover{border-color:var(--tc-green);background:var(--tc-green-pale);}
+.doc-dl i{font-size:15px;color:var(--tc-mid);}
+.doc-dl:hover i{color:var(--tc-green-dark);}
+
+.ticket{background:var(--tc-white);border-radius:10px;border:0.5px solid var(--tc-border);padding:14px;margin-bottom:10px;}
+.ticket-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.ticket-id{font-size:12px;font-weight:500;color:var(--tc-black);}
+.ticket-body{font-size:12px;color:var(--tc-mid);line-height:1.55;margin-bottom:6px;}
+.ticket-date{font-size:11px;color:var(--tc-muted);}
+.new-ticket-btn{width:100%;padding:10px;border-radius:9px;border:1px dashed var(--tc-border);background:transparent;color:var(--tc-mid);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.12s;}
+.new-ticket-btn:hover{border-color:var(--tc-green);color:var(--tc-green-dark);background:var(--tc-green-pale);}
+.new-ticket-btn i{font-size:15px;}
+.reorder-btn{padding:4px 12px;border-radius:6px;border:0.5px solid var(--tc-border);background:transparent;color:var(--tc-mid);cursor:pointer;font-size:11px;font-weight:500;}
+.reorder-btn:hover{border-color:var(--tc-green);color:var(--tc-green-dark);background:var(--tc-green-pale);}
+</style>
+
+<div class="portal">
+  <div class="topbar">
+    <div class="logo-wrap">
+      <div class="logo-box">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M3 14L9 4L15 14H3Z" fill="#1a1a18" stroke="none"/><circle cx="9" cy="4" r="1.5" fill="#1a1a18"/></svg>
+      </div>
+      <div>
+        <div class="logo-name">TIGER Coatings <span class="logo-sub">Portal</span></div>
+      </div>
+    </div>
+    <div class="topbar-mid"></div>
+    <div class="topbar-right">
+      <div class="notif-wrap"><i class="ti ti-bell topbar-icon" aria-hidden="true"></i><div class="notif-dot"></div></div>
+      <i class="ti ti-settings topbar-icon" aria-hidden="true"></i>
+      <div class="avatar-wrap">
+        <div class="avatar">MW</div>
+        <span class="avatar-name">Muster GmbH</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sidebar-top">
+        <div class="company-chip">
+          <div class="company-name">Muster GmbH</div>
+          <div class="company-tier"><i class="ti ti-star" style="font-size:11px;vertical-align:-1px;" aria-hidden="true"></i> Premium · Stufe 3</div>
+        </div>
+      </div>
+      <div class="nav-section">Übersicht</div>
+      <div class="nav-item active" onclick="nav('dashboard',this)"><i class="ti ti-layout-dashboard" aria-hidden="true"></i>Dashboard</div>
+      <div class="nav-section">Einkauf</div>
+      <div class="nav-item" onclick="nav('orders',this)"><i class="ti ti-clipboard-list" aria-hidden="true"></i>Bestellungen</div>
+      <div class="nav-item" onclick="nav('products',this)"><i class="ti ti-package" aria-hidden="true"></i>Produkte</div>
+      <div class="nav-section">Service</div>
+      <div class="nav-item" onclick="nav('docs',this)"><i class="ti ti-file-text" aria-hidden="true"></i>Dokumente</div>
+      <div class="nav-item" onclick="nav('support',this)"><i class="ti ti-headset" aria-hidden="true"></i>Support</div>
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-link"><i class="ti ti-user-circle" aria-hidden="true"></i>Mein Konto</div>
+        <div class="sidebar-footer-link"><i class="ti ti-logout" aria-hidden="true"></i>Abmelden</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- Dashboard -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header">
+          <div class="page-title">Guten Morgen, Muster GmbH</div>
+          <div class="page-sub">Dienstag, 09. Juni 2026</div>
+        </div>
+        <div class="metric-grid">
+          <div class="metric">
+            <div class="metric-icon"><i class="ti ti-truck" aria-hidden="true"></i></div>
+            <div class="metric-label">Offene Bestellungen</div>
+            <div class="metric-val">3</div>
+            <div class="metric-sub" style="color:#7a6002;">1 in Lieferung</div>
+          </div>
+          <div class="metric">
+            <div class="metric-icon"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
+            <div class="metric-label">Jahresumsatz 2026</div>
+            <div class="metric-val">€ 84.200</div>
+            <div class="metric-sub" style="color:#4a6a02;"><i class="ti ti-trending-up" style="font-size:11px;vertical-align:-1px;" aria-hidden="true"></i> +12 % vs. Vorjahr</div>
+          </div>
+          <div class="metric">
+            <div class="metric-icon"><i class="ti ti-discount" aria-hidden="true"></i></div>
+            <div class="metric-label">Rabattstufe</div>
+            <div class="metric-val">Stufe 3</div>
+            <div class="metric-sub" style="color:var(--tc-muted);">Premium-Kunde</div>
+          </div>
+        </div>
+        <div class="live-bar">
+          <i class="ti ti-bolt" aria-hidden="true"></i>
+          Ihre kundenspezifischen Preise werden in Echtzeit aus SAP geladen.
+          <div class="live-pill"><div class="live-dot"></div>Live</div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Aktuelle Bestellungen</span>
+            <span class="card-action" onclick="nav('orders',document.querySelector('[onclick*=orders]'))">Alle anzeigen →</span>
+          </div>
+          <table class="tbl">
+            <thead><tr><th style="width:22%">Bestell-Nr.</th><th style="width:34%">Produkt</th><th style="width:20%">Status</th><th style="width:14%">Datum</th><th style="width:10%"></th></tr></thead>
+            <tbody>
+              <tr><td class="link">ORD-2026-041</td><td class="bold">TIGER Coat Epoxy 3000</td><td><span class="badge badge-yellow"><span class="badge-dot"></span>In Lieferung</span></td><td>03.06.26</td><td><button class="reorder-btn">+</button></td></tr>
+              <tr><td class="link">ORD-2026-038</td><td class="bold">Polyester RAL 7016</td><td><span class="badge badge-green"><span class="badge-dot"></span>Geliefert</span></td><td>28.05.26</td><td><button class="reorder-btn">+</button></td></tr>
+              <tr><td class="link">ORD-2026-031</td><td class="bold">Primer HV-10</td><td><span class="badge badge-green"><span class="badge-dot"></span>Geliefert</span></td><td>15.05.26</td><td><button class="reorder-btn">+</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bestellungen -->
+      <div class="page" id="page-orders">
+        <div class="page-header">
+          <div class="page-title">Bestellungen</div>
+          <div class="page-sub">Alle Bestellungen Ihres Kontos</div>
+        </div>
+        <div class="filter-row">
+          <button class="chip on" onclick="toggleChip(this)">Alle</button>
+          <button class="chip" onclick="toggleChip(this)">In Lieferung</button>
+          <button class="chip" onclick="toggleChip(this)">Geliefert</button>
+          <button class="chip" onclick="toggleChip(this)">In Bearbeitung</button>
+        </div>
+        <div class="card">
+          <table class="tbl">
+            <thead><tr><th style="width:20%">Bestell-Nr.</th><th style="width:30%">Produkt</th><th style="width:14%">Menge</th><th style="width:20%">Status</th><th style="width:12%">Datum</th><th style="width:14%"></th></tr></thead>
+            <tbody>
+              <tr><td class="link">ORD-2026-041</td><td class="bold">TIGER Coat Epoxy 3000</td><td>200 kg</td><td><span class="badge badge-yellow"><span class="badge-dot"></span>In Lieferung</span></td><td>03.06.26</td><td><button class="reorder-btn">Nachbestellen</button></td></tr>
+              <tr><td class="link">ORD-2026-038</td><td class="bold">Polyester RAL 7016</td><td>150 kg</td><td><span class="badge badge-green"><span class="badge-dot"></span>Geliefert</span></td><td>28.05.26</td><td><button class="reorder-btn">Nachbestellen</button></td></tr>
+              <tr><td class="link">ORD-2026-031</td><td class="bold">Primer HV-10</td><td>50 kg</td><td><span class="badge badge-green"><span class="badge-dot"></span>Geliefert</span></td><td>15.05.26</td><td><button class="reorder-btn">Nachbestellen</button></td></tr>
+              <tr><td class="link">ORD-2026-022</td><td class="bold">Hybrid Pulver HY-200</td><td>100 kg</td><td><span class="badge badge-green"><span class="badge-dot"></span>Geliefert</span></td><td>12.05.26</td><td><button class="reorder-btn">Nachbestellen</button></td></tr>
+              <tr><td class="link">ORD-2026-011</td><td class="bold">UV-Schutzlack UVP-5</td><td>75 kg</td><td><span class="badge badge-blue"><span class="badge-dot"></span>In Bearbeitung</span></td><td>02.05.26</td><td><button class="reorder-btn">Nachbestellen</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Produkte -->
+      <div class="page" id="page-products">
+        <div class="page-header">
+          <div class="page-title">Produkte</div>
+          <div class="page-sub">Ihr Sortiment mit kundenspezifischen Preisen</div>
+        </div>
+        <div class="live-bar">
+          <i class="ti ti-tag" aria-hidden="true"></i>
+          Preise entsprechen Ihrer Rabattstufe 3 — direkt aus SAP.
+          <div class="live-pill"><div class="live-dot"></div>Live</div>
+        </div>
+        <div class="prod-grid">
+          <div class="prod-card">
+            <div class="swatch-row"><div class="swatch" style="background:#1a1a18;"></div><div class="swatch" style="background:#3a3a34;"></div><div class="swatch" style="background:#5a5a50;"></div></div>
+            <div class="prod-name">Epoxy Pulver EP-3000</div>
+            <div class="prod-nr">Art.-Nr. 10-3000-K · Epoxy</div>
+            <div class="prod-price-row"><span class="prod-price">€ 8,40</span><span class="prod-unit">/ kg inkl. Rabatt</span></div>
+            <button class="prod-btn">In den Warenkorb</button>
+          </div>
+          <div class="prod-card">
+            <div class="swatch-row"><div class="swatch" style="background:#4a4e54;"></div><div class="swatch" style="background:#6a6e74;"></div></div>
+            <div class="prod-name">Polyester RAL 7016</div>
+            <div class="prod-nr">Art.-Nr. 20-7016-A · Polyester</div>
+            <div class="prod-price-row"><span class="prod-price">€ 7,20</span><span class="prod-unit">/ kg inkl. Rabatt</span></div>
+            <button class="prod-btn">In den Warenkorb</button>
+          </div>
+          <div class="prod-card">
+            <div class="swatch-row"><div class="swatch" style="background:#97BF0D;"></div><div class="swatch" style="background:#7aa00a;"></div></div>
+            <div class="prod-name">Hybrid Pulver HY-200</div>
+            <div class="prod-nr">Art.-Nr. 30-HY-200 · Hybrid</div>
+            <div class="prod-price-row"><span class="prod-price">€ 9,10</span><span class="prod-unit">/ kg inkl. Rabatt</span></div>
+            <button class="prod-btn">In den Warenkorb</button>
+          </div>
+          <div class="prod-card">
+            <div class="swatch-row"><div class="swatch" style="background:#c8a020;"></div><div class="swatch" style="background:#a07818;"></div></div>
+            <div class="prod-name">UV-Schutzlack UVP-5</div>
+            <div class="prod-nr">Art.-Nr. 40-UVP-5 · UV-Schutz</div>
+            <div class="prod-price-row"><span class="prod-price">€ 11,60</span><span class="prod-unit">/ kg inkl. Rabatt</span></div>
+            <button class="prod-btn">In den Warenkorb</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dokumente -->
+      <div class="page" id="page-docs">
+        <div class="page-header">
+          <div class="page-title">Dokumente</div>
+          <div class="page-sub">Datenblätter, Zertifikate und Rechnungen</div>
+        </div>
+        <div class="filter-row">
+          <button class="chip on" onclick="toggleChip(this)">Alle</button>
+          <button class="chip" onclick="toggleChip(this)">Sicherheitsdatenblätter</button>
+          <button class="chip" onclick="toggleChip(this)">Zertifikate</button>
+          <button class="chip" onclick="toggleChip(this)">Rechnungen</button>
+        </div>
+        <div class="doc-list">
+          <div class="doc-row">
+            <div class="doc-icon-wrap"><i class="ti ti-file-description" aria-hidden="true"></i></div>
+            <div><div class="doc-name">Sicherheitsdatenblatt EP-3000</div><div class="doc-meta">PDF · 1,2 MB · aktualisiert Mai 2026</div></div>
+            <div class="doc-dl"><i class="ti ti-download" aria-label="Herunterladen"></i></div>
+          </div>
+          <div class="doc-row">
+            <div class="doc-icon-wrap"><i class="ti ti-file-description" aria-hidden="true"></i></div>
+            <div><div class="doc-name">Sicherheitsdatenblatt HY-200</div><div class="doc-meta">PDF · 0,9 MB · aktualisiert März 2026</div></div>
+            <div class="doc-dl"><i class="ti ti-download" aria-label="Herunterladen"></i></div>
+          </div>
+          <div class="doc-row">
+            <div class="doc-icon-wrap"><i class="ti ti-rosette" aria-hidden="true"></i></div>
+            <div><div class="doc-name">ISO 9001 Zertifikat 2026</div><div class="doc-meta">PDF · 0,4 MB · gültig bis Dez. 2026</div></div>
+            <div class="doc-dl"><i class="ti ti-download" aria-label="Herunterladen"></i></div>
+          </div>
+          <div class="doc-row">
+            <div class="doc-icon-wrap"><i class="ti ti-receipt" aria-hidden="true"></i></div>
+            <div><div class="doc-name">Rechnung ORD-2026-038</div><div class="doc-meta">PDF · 0,2 MB · 28.05.2026</div></div>
+            <div class="doc-dl"><i class="ti ti-download" aria-label="Herunterladen"></i></div>
+          </div>
+          <div class="doc-row">
+            <div class="doc-icon-wrap"><i class="ti ti-receipt" aria-hidden="true"></i></div>
+            <div><div class="doc-name">Rechnung ORD-2026-031</div><div class="doc-meta">PDF · 0,2 MB · 15.05.2026</div></div>
+            <div class="doc-dl"><i class="ti ti-download" aria-label="Herunterladen"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Support -->
+      <div class="page" id="page-support">
+        <div class="page-header">
+          <div class="page-title">Support</div>
+          <div class="page-sub">Ihre offenen und abgeschlossenen Anfragen</div>
+        </div>
+        <div class="ticket">
+          <div class="ticket-head">
+            <span class="ticket-id"><i class="ti ti-message-circle" style="font-size:13px;vertical-align:-1px;margin-right:4px;" aria-hidden="true"></i>SUP-2026-019</span>
+            <span class="badge badge-yellow"><span class="badge-dot"></span>Offen</span>
+          </div>
+          <div class="ticket-body">Frage zur Verarbeitungstemperatur von EP-3000 bei Außenanwendungen. Antwort steht aus.</div>
+          <div class="ticket-date">Erstellt: 05.06.2026</div>
+        </div>
+        <div class="ticket">
+          <div class="ticket-head">
+            <span class="ticket-id"><i class="ti ti-message-circle" style="font-size:13px;vertical-align:-1px;margin-right:4px;" aria-hidden="true"></i>SUP-2026-014</span>
+            <span class="badge badge-green"><span class="badge-dot"></span>Gelöst</span>
+          </div>
+          <div class="ticket-body">Lieferverzögerung ORD-2026-022 — wurde am 02.06. behoben und Lieferung bestätigt.</div>
+          <div class="ticket-date">Gelöst: 02.06.2026</div>
+        </div>
+        <button class="new-ticket-btn" onclick="sendPrompt('Welche Infos brauche ich für ein neues Support-Ticket im TIGER Kundenportal?')">
+          <i class="ti ti-plus" aria-hidden="true"></i>
+          Neues Ticket erstellen ↗
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function nav(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if(el) el.classList.add('active');
+}
+function toggleChip(el) {
+  el.classList.toggle('on');
+}
+</script>
